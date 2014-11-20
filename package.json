@@ -1,0 +1,16 @@
+{
+  "name": "redditnhkeasynews",
+  "version": "1.0.0",
+  "description": "script to post articles to nhkeasynews subreddit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "babofitos",
+  "license": "ISC",
+  "dependencies": {
+    "JSONStream": "^0.9.0",
+    "nhkeasy": "^1.0.0",
+    "request": "^2.48.0"
+  }
+}

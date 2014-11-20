@@ -1,0 +1,5 @@
+{
+  "subreddit": "NHKEasyNews",
+  //This is the markdown inbetween each paragraph
+  "separator": "\n\n"
+}
