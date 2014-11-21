@@ -25,12 +25,26 @@ module.exports = function(reddit) {
         console.log('Error checking reddit');
         return done();
       }
-      ids.forEach(function (id) {
-        that.push(id);
-      });
-      done();
+
+      var boundBufferid = bufferid.bind(that);
+      boundBufferid(ids, done);
     })
   }
+
+  function bufferid(ids, cb) {
+    setTimeout(function() {
+      if (ids.length) {
+        var id = ids.shift();
+        var boundBufferid = bufferid.bind(this);
+
+        boundBufferid(ids, cb);
+        this.push(id);
+      } else {
+        cb();
+      }
+     }.bind(this), config.delay);
+  }
+
   function checkRedditPosts(ids, cb) {
     request(
       {
