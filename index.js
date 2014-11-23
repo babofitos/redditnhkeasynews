@@ -23,22 +23,32 @@ reddit.login(username, password, function(err) {
     console.log('Error logging in');
     throw err;
   } else {
-    request({url: 'http://www3.nhk.or.jp/news/easy/news-list.json', json: true})
+    var nhkJSONGet = request({url: 'http://www3.nhk.or.jp/news/easy/news-list.json', json: true})
+
+    nhkJSONGet
       .on('error', function(err) {
         console.log('Error requesting nhk JSON' + err);
       })
-      .pipe(strip)
-      .pipe(getArticleIds)
-      .on('error', function(err) {
-        console.log('Error parsing JSON', err);
-      })
-      .pipe(checkDupe)
-      .on('error', function(err) {
-        console.log(err);
-      })
-      .pipe(submitArticle)
-      .on('error', function(err) {
-        console.log(err);
+      .on('response', function(response) {
+        if (response.statusCode != 200) {
+          console.log('Unsuccessful status code. Aborting');
+          nhkJSONGet.abort();
+        } else {
+          nhkJSONGet
+            .pipe(strip)
+            .pipe(getArticleIds)
+            .on('error', function(err) {
+              console.log('Error parsing JSON');
+            })
+            .pipe(checkDupe)
+            .on('error', function(err) {
+              console.log(err);
+            })
+            .pipe(submitArticle)
+            .on('error', function(err) {
+              console.log(err);
+            })
+        }
       })
   }
 })
