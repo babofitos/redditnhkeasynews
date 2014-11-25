@@ -22,7 +22,6 @@ module.exports = function(reddit) {
     checkRedditPosts(ids, function(err, ids) {
       if (err) {
         checkDupe.emit('error', err);
-        console.log('Error checking reddit');
         return done();
       }
 
@@ -73,7 +72,7 @@ module.exports = function(reddit) {
           })
           cb(null, ids);    
         }  else {
-          cb(err);
+          cb("Error getting reddit new.json");
         }
       }
     )
